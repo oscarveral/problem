@@ -11,6 +11,6 @@ time needed to solve all problems.
 ## Current sources.
 
 As each problem is obtained by parsing program arguments, each problem source 
-needs to a string pattern to be able to parse problems for that source.
+needs a string pattern to be able to parse problems for that source.
 
 * Advent of Code (advent-of-code:yyyy-dd-pp) 
