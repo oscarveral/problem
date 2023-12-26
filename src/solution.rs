@@ -1,9 +1,9 @@
-use std::fmt::{ Display, Formatter, Result };
+use std::fmt::{Display, Formatter, Result};
 
 use Solution::*;
 
 pub enum Solution {
-	I8(i8),
+    I8(i8),
     I16(i16),
     I32(i32),
     I64(i64),
@@ -18,9 +18,9 @@ pub enum Solution {
 }
 
 impl Display for Solution {
-	fn fmt(&self, f: &mut Formatter<'_>) -> Result {
-		match self {
-			I8(x) => x.fmt(f),
+    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
+        match self {
+            I8(x) => x.fmt(f),
             I16(x) => x.fmt(f),
             I32(x) => x.fmt(f),
             I64(x) => x.fmt(f),
@@ -32,8 +32,8 @@ impl Display for Solution {
             U64(x) => x.fmt(f),
             U128(x) => x.fmt(f),
             USize(x) => x.fmt(f),
-		}
-	}
+        }
+    }
 }
 
 macro_rules! impl_from {
@@ -43,7 +43,7 @@ macro_rules! impl_from {
                 Self::$kind_(sol)
             }
         }
-    }
+    };
 }
 
 impl_from!(i8, I8);

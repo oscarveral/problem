@@ -1,7 +1,7 @@
-mod solution;
+mod catalogue;
 mod problem;
 mod router;
-mod catalogue;
+mod solution;
 
 use problem::Problem;
 use router::Solver;
@@ -16,13 +16,13 @@ fn main() {
     args.swap_remove(0);
 
     let problems: Vec<Problem> = problem::get_problems(args);
-    
+
     if problems.is_empty() {
         eprint!("No problems to solve.");
         return;
     }
 
-    let solvers: Vec<(Solver, Problem)>= router::get_solvers(problems);
+    let solvers: Vec<(Solver, Problem)> = router::get_solvers(problems);
 
     if solvers.is_empty() {
         eprint!("No solvers to run.");
@@ -30,7 +30,6 @@ fn main() {
     }
 
     for solver in solvers {
-
         let time = std::time::Instant::now();
         let solution = solver.0();
         let elapsed = time.elapsed().as_nanos() as f64 / 1_000_000.0;
