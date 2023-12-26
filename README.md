@@ -6,7 +6,7 @@ The problem or problems being solved are selected via program arguments. The
 program parses all arguments to obtain the corresponding solution function that
 needs to be executed. Then, it executes each function and prints the problem 
 name, solution obtained and execution time. It also prints the total execution 
-time needed to solve all problems. 
+time needed to solve all supplied problems. 
 
 ## Current sources.
 
