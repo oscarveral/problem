@@ -2,13 +2,11 @@ use std::{fs, ops::Range, str::FromStr};
 
 use crate::solution::Solution;
 
-#[derive(Debug)]
 struct Mapper {
     pub range_orgin: Range<u64>,
     delta: i64,
 }
 
-#[derive(Debug)]
 struct AlmanacErr;
 
 impl FromStr for Mapper {
@@ -43,7 +41,6 @@ impl Mapper {
     }
 }
 
-#[derive(Debug)]
 struct MapperCollection {
     mappers: Vec<Mapper>,
 }
@@ -81,7 +78,6 @@ impl MapperCollection {
     }
 }
 
-#[derive(Debug)]
 struct Almanac {
     seeds: Vec<u64>,
     transformations: [MapperCollection; 7],
@@ -146,19 +142,15 @@ impl Almanac {
     fn find_min_position_range(&self, range: Range<u64>) -> Option<u64> {
         let mut curr_ranges = vec![range];
         let mut next_ranges = vec![];
-        
+
         for transformation in &self.transformations {
             for range in curr_ranges.drain(..) {
                 next_ranges.extend(transformation.map_range(range));
             }
             std::mem::swap(&mut curr_ranges, &mut next_ranges);
         }
-        curr_ranges
-            .into_iter()
-            .filter_map(|r| r.min())
-            .min()
+        curr_ranges.into_iter().filter_map(|r| r.min()).min()
     }
-
 }
 
 fn get_input() -> String {
@@ -168,12 +160,13 @@ fn get_input() -> String {
 pub fn solve_part_1() -> Solution {
     let input = get_input();
 
-    let almanac = Almanac::from_str(&input).unwrap();
+    let almanac = Almanac::from_str(&input).unwrap_or_else(|_e| {
+        panic!("Error parsing input.");
+    });
 
     almanac.find_min_position().into()
 }
 
-#[derive(Debug)]
 struct MapperCollectionRangeIterator<'a> {
     mapper_collection: &'a MapperCollection,
     range: Range<u64>,
@@ -184,7 +177,6 @@ impl<'a> Iterator for MapperCollectionRangeIterator<'a> {
     type Item = Range<u64>;
 
     fn next(&mut self) -> Option<Self::Item> {
-        
         // No queda nada de procesar en el rango.
         if self.range.end <= self.range.start {
             return None;
@@ -208,9 +200,11 @@ impl<'a> Iterator for MapperCollectionRangeIterator<'a> {
                 let end = std::cmp::min(self.range.end, curr_mapper.range_orgin.end);
                 self.range.start = end;
                 self.current += 1;
-                return Some((start as i64 + curr_mapper.delta) as u64..(end as i64 +curr_mapper.delta) as u64);
-            }
-            else {
+                return Some(
+                    (start as i64 + curr_mapper.delta) as u64
+                        ..(end as i64 + curr_mapper.delta) as u64,
+                );
+            } else {
                 // No hay overpal seguir al siguiente mapper.
                 self.current += 1;
             }
@@ -218,9 +212,9 @@ impl<'a> Iterator for MapperCollectionRangeIterator<'a> {
 
         // Si quedo algo del rango por procesar, devolverlo.
         if self.range.end > self.range.start {
-           let res = Some(self.range.clone());
-           self.range.start = self.range.end;
-           return res;            
+            let res = Some(self.range.clone());
+            self.range.start = self.range.end;
+            return res;
         }
 
         None
@@ -230,11 +224,14 @@ impl<'a> Iterator for MapperCollectionRangeIterator<'a> {
 pub fn solve_part_2() -> Solution {
     let input = get_input();
 
-    let almanac = Almanac::from_str(&input).unwrap();
+    let almanac = Almanac::from_str(&input).unwrap_or_else(|_e| {
+        panic!("Error parsing input.");
+    });
 
-    almanac.seeds
+    almanac
+        .seeds
         .chunks_exact(2)
-        .map(|chunk| chunk[0]..chunk[0]+chunk[1])
+        .map(|chunk| chunk[0]..chunk[0] + chunk[1])
         .filter_map(|range| almanac.find_min_position_range(range))
         .map(|num| num as u32)
         .min()

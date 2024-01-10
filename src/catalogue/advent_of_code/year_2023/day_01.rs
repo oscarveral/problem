@@ -7,7 +7,6 @@ fn get_input() -> String {
 }
 
 pub fn solve_part_1() -> Solution {
-
     let input = get_input();
 
     input
@@ -16,14 +15,13 @@ pub fn solve_part_1() -> Solution {
             let mut nums = line.chars().filter_map(|c| c.to_digit(10));
             let first = nums.next();
             let last = nums.next_back().or(first);
-            first.zip(last).map(|(first, last)| first *10 + last)
+            first.zip(last).map(|(first, last)| first * 10 + last)
         })
         .sum::<u32>()
         .into()
 }
 
 pub fn solve_part_2() -> Solution {
-
     let input = get_input();
 
     let digit_strs = [
