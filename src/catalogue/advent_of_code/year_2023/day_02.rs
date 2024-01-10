@@ -1,7 +1,4 @@
-use std::{
-    fs,
-    str::FromStr,
-};
+use std::{fs, str::FromStr};
 
 use crate::solution::Solution;
 
@@ -43,7 +40,7 @@ impl Color {
         self.red <= limit.red && self.green <= limit.green && self.blue <= limit.blue
     }
 
-    fn pow(self) -> u32{
+    fn pow(self) -> u32 {
         self.red * self.green * self.blue
     }
 
@@ -92,7 +89,6 @@ fn get_input() -> String {
 }
 
 pub fn solve_part_1() -> Solution {
-   
     let input = get_input();
 
     input
@@ -111,7 +107,6 @@ pub fn solve_part_1() -> Solution {
 }
 
 pub fn solve_part_2() -> Solution {
-
     let input = get_input();
 
     input
@@ -121,7 +116,7 @@ pub fn solve_part_2() -> Solution {
             game.colors
                 .iter()
                 .copied()
-                .reduce(|acc, color| acc.max(color))                
+                .reduce(|acc, color| acc.max(color))
         })
         .map(|color| color.pow())
         .sum::<u32>()

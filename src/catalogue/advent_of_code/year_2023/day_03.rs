@@ -1,152 +1,109 @@
-use std::{
-    collections::HashMap,
-    fs::File,
-    io::{BufRead, BufReader},
-};
+use std::{char, collections::HashMap, fs};
 
 use crate::solution::Solution;
 
+fn get_input() -> String {
+    fs::read_to_string("src/catalogue/advent_of_code/year_2023/inputs/day_03.in").unwrap()
+}
+
 pub fn solve_part_1() -> Solution {
-    let input_file = File::open("src/catalogue/advent_of_code/year_2023/inputs/day_03.in").unwrap();
-    let reader = BufReader::new(input_file);
-
-    let map = reader
+    let input = get_input();
+    let mut part_sum = 0;
+    let mut cur_num: Option<u32> = None;
+    let mut cur_start: Option<usize> = None;
+    let chars: Vec<Vec<char>> = input
         .lines()
-        .map(|line| line.unwrap())
-        .map(|line| line.chars().collect::<Vec<char>>())
-        .collect::<Vec<Vec<char>>>();
-
-    let mut sum = 0;
-    let mut y = 0;
-    let mut x = 0;
-
-    while y < map.len() {
-        while x < map[y].len() {
-            if map[y][x].is_ascii_digit() {
-                let start = x;
-                let mut end = x;
-
-                while end < map[y].len() - 1 && map[y][end + 1].is_ascii_digit() {
-                    end += 1;
+        .map(|line| line.trim().chars().collect())
+        .collect();
+    for (row, line) in chars.iter().enumerate() {
+        for (col, ch) in line.iter().copied().enumerate() {
+            let mut numeric = false;
+            if let Some(digit) = ch.to_digit(10) {
+                numeric = true;
+                cur_num = Some(cur_num.unwrap_or(0) * 10 + digit);
+                if cur_start.is_none() {
+                    cur_start = Some(col);
                 }
-
-                let scan_start = (y.saturating_sub(1), start.saturating_sub(1));
-                let scan_end = (
-                    if y < map.len() - 1 { y + 1 } else { y },
-                    if end < map[y].len() - 1 { end + 1 } else { end },
-                );
-
-                let mut is_valid = false;
-                for (_, line) in map
-                    .iter()
-                    .enumerate()
-                    .take(scan_end.0 + 1)
-                    .skip(scan_start.0)
-                {
-                    for (_, scan_char) in line
-                        .iter()
-                        .enumerate()
-                        .take(scan_end.1 + 1)
-                        .skip(scan_start.1)
-                    {
-                        if *scan_char != '.' && !scan_char.is_ascii_digit() {
-                            is_valid = true;
+            }
+            if !numeric || col == line.len() - 1 {
+                if let Some((start, number)) = cur_start.zip(cur_num) {
+                    let end = if numeric { col } else { col - 1 };
+                    let mut symbol: Option<char> = None;
+                    for i in row.saturating_sub(1)..=row.saturating_add(1) {
+                        for j in start.saturating_sub(1)..=end.saturating_add(1) {
+                            if let Some(&adj_ch) = chars.get(i).and_then(|l| l.get(j)) {
+                                if !adj_ch.is_numeric() && adj_ch != '.' {
+                                    symbol = Some(adj_ch);
+                                }
+                            }
                         }
                     }
+                    if symbol.is_some() {
+                        part_sum += number;
+                    }
                 }
-
-                if is_valid {
-                    sum += map[y][start..=end]
-                        .iter()
-                        .collect::<String>()
-                        .parse::<usize>()
-                        .unwrap()
-                }
-
-                x = end;
+                cur_start = None;
+                cur_num = None;
             }
-            x += 1;
         }
-        x = 0;
-        y += 1;
     }
-
-    sum.into()
+    part_sum.into()
 }
 
 pub fn solve_part_2() -> Solution {
-    let input_file = File::open("src/catalogue/advent_of_code/year_2023/inputs/day_03.in").unwrap();
-    let reader = BufReader::new(input_file);
-
-    let map = reader
+    let input = get_input();
+    let mut gears: HashMap<(usize, usize), Gear> = HashMap::new();
+    let mut cur_num: Option<u32> = None;
+    let mut cur_start: Option<usize> = None;
+    let chars: Vec<Vec<char>> = input
         .lines()
-        .map(|line| line.unwrap())
-        .map(|line| line.chars().collect::<Vec<char>>())
-        .collect::<Vec<Vec<char>>>();
-
-    let mut y = 0;
-    let mut x = 0;
-    type Postion = (usize, usize);
-    let mut gear_map: HashMap<Postion, Vec<(Postion, Postion)>> = HashMap::new();
-
-    while y < map.len() {
-        while x < map[y].len() {
-            if map[y][x].is_ascii_digit() {
-                let start = x;
-                let mut end = x;
-
-                while end < map[y].len() - 1 && map[y][end + 1].is_ascii_digit() {
-                    end += 1;
+        .map(|line| line.trim().chars().collect())
+        .collect();
+    // TODO: scan for gears instead, and only parse numbers when gears are found?
+    for (row, line) in chars.iter().enumerate() {
+        for (col, ch) in line.iter().copied().enumerate() {
+            let mut numeric = false;
+            if let Some(digit) = ch.to_digit(10) {
+                numeric = true;
+                cur_num = Some(cur_num.unwrap_or(0) * 10 + digit);
+                if cur_start.is_none() {
+                    cur_start = Some(col);
                 }
-
-                let scan_start = (y.saturating_sub(1), start.saturating_sub(1));
-                let scan_end = (
-                    if y < map.len() - 1 { y + 1 } else { y },
-                    if end < map[y].len() - 1 { end + 1 } else { end },
-                );
-
-                for (scan_y, line) in map
-                    .iter()
-                    .enumerate()
-                    .take(scan_end.0 + 1)
-                    .skip(scan_start.0)
-                {
-                    for (scan_x, scan_char) in line
-                        .iter()
-                        .enumerate()
-                        .take(scan_end.1 + 1)
-                        .skip(scan_start.1)
-                    {
-                        if *scan_char == '*' {
-                            let gear_list = gear_map.entry((scan_y, scan_x)).or_default();
-                            gear_list.push(((y, start), (y, end)));
+            }
+            if !numeric || col == line.len() - 1 {
+                if let Some((start, number)) = cur_start.zip(cur_num) {
+                    let end = if numeric { col } else { col - 1 };
+                    let mut counted_gear_part = false;
+                    for i in row.saturating_sub(1)..=row.saturating_add(1) {
+                        for j in start.saturating_sub(1)..=end.saturating_add(1) {
+                            if let Some(&adj_ch) = chars.get(i).and_then(|l| l.get(j)) {
+                                if adj_ch == '*' && !counted_gear_part {
+                                    let gear = gears.entry((i, j)).or_insert(Gear {
+                                        ratio: 1,
+                                        adjacent_parts: 0,
+                                    });
+                                    gear.ratio *= number;
+                                    gear.adjacent_parts += 1;
+                                    counted_gear_part = true;
+                                }
+                            }
                         }
                     }
                 }
-
-                x = end;
+                cur_start = None;
+                cur_num = None;
             }
-            x += 1;
         }
-        x = 0;
-        y += 1;
     }
 
-    gear_map
-        .iter()
-        .filter(|(_, gear_list)| gear_list.len() == 2)
-        .map(|(_, gear_list)| {
-            map[gear_list[0].0 .0][gear_list[0].0 .1..=gear_list[0].1 .1]
-                .iter()
-                .collect::<String>()
-                .parse::<usize>()
-                .unwrap()
-                * map[gear_list[1].0 .0][gear_list[1].0 .1..=gear_list[1].1 .1]
-                    .iter()
-                    .collect::<String>()
-                    .parse::<usize>()
-                    .unwrap()
-        })
-        .sum::<usize>()
+    gears
+        .into_values()
+        .filter_map(|gear| (gear.adjacent_parts == 2).then_some(gear.ratio))
+        .sum::<u32>()
         .into()
+}
+
+struct Gear {
+    ratio: u32,
+    adjacent_parts: usize,
 }
