@@ -64,7 +64,7 @@ impl Problem for AdventOfCodeProblem {
             2 => years[0]..=years[1],
             _ => {
                 eprintln!("Advent of Code: The year range is invalid.");
-                return None
+                return None;
             }
         };
 
@@ -73,7 +73,7 @@ impl Problem for AdventOfCodeProblem {
             2 => days[0]..=days[1],
             _ => {
                 eprintln!("Advent of Code: The day range is invalid.");
-                return None
+                return None;
             }
         };
 
@@ -82,7 +82,7 @@ impl Problem for AdventOfCodeProblem {
             2 => parts[0]..=parts[1],
             _ => {
                 eprintln!("Advent of Code: The part range is invalid.");
-                return None
+                return None;
             }
         };
 
