@@ -79,6 +79,7 @@ pub fn problem_from_str(s: &str) -> Option<impl Problem> {
     let problem = parts.next()?;
 
     if parts.next().is_some() {
+        eprintln!("Problem string \"{}\" could not be parsed.", s);
         return None;
     }
 

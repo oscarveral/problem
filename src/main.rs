@@ -17,8 +17,6 @@ fn main() {
         let problem = catalogue::problem_from_str(arg);
         if let Some(problem) = problem {
             problems.push(problem);
-        } else {
-            eprintln!("Problem {} could not be parsed.", arg);
         }
     }
 
@@ -35,7 +33,6 @@ fn main() {
         println!("Problem: {}", solver.get_info());
         println!("Solution: {}", solution);
         println!("Elapsed: {}ms", elapsed_current);
-        println!();
     }
 
     println!("Total elapsed: {}ms", elapsed_total as f64 / 1_000_000.0);

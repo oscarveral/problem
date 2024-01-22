@@ -1,4 +1,4 @@
-use std::{char, collections::HashMap, fs};
+use std::{char, collections::HashMap};
 
 super::get_input!(2023, 3);
 

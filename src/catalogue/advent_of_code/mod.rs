@@ -62,20 +62,46 @@ impl Problem for AdventOfCodeProblem {
         let year = match years.len() {
             1 => years[0]..=years[0],
             2 => years[0]..=years[1],
-            _ => return None,
+            _ => {
+                eprintln!("Advent of Code: The year range is invalid.");
+                return None
+            }
         };
 
         let day = match days.len() {
             1 => days[0]..=days[0],
             2 => days[0]..=days[1],
-            _ => return None,
+            _ => {
+                eprintln!("Advent of Code: The day range is invalid.");
+                return None
+            }
         };
 
         let part = match parts.len() {
             1 => parts[0]..=parts[0],
             2 => parts[0]..=parts[1],
-            _ => return None,
+            _ => {
+                eprintln!("Advent of Code: The part range is invalid.");
+                return None
+            }
         };
+
+        if years[0] > years[1] {
+            eprintln!("Advent of Code: The start year is greater than the end year.");
+            return None;
+        }
+
+        if days[0] > days[1] {
+            eprintln!("Advent of Code: The start day is greater than the end day.");
+            return None;
+        }
+
+        if parts[0] > parts[1] {
+            eprintln!("Advent of Code: The start part is greater than the end part.");
+            return None;
+        }
+
+        
 
         Some(Self { year, day, part })
     }
