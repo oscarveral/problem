@@ -85,6 +85,9 @@ pub fn problem_from_str(s: &str) -> Option<impl Problem> {
 
     match kind {
         advent_of_code::IDENTIFIER => advent_of_code::AdventOfCodeProblem::from_str(problem),
-        _ => None,
+        _ => {
+            eprintln!("There is no problem kind \"{}\".", kind);
+            None
+        }
     }
 }

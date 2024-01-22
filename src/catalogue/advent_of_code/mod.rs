@@ -101,8 +101,6 @@ impl Problem for AdventOfCodeProblem {
             return None;
         }
 
-        
-
         Some(Self { year, day, part })
     }
 }
