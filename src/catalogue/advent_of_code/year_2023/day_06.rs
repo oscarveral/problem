@@ -1,16 +1,23 @@
-use std::{fs, str::FromStr};
+use std::str::FromStr;
 
-use crate::solution::Solution;
+super::get_input!(2023, 6);
 
-fn get_input() -> String {
-    fs::read_to_string("src/catalogue/advent_of_code/year_2023/inputs/day_06.in").unwrap()
-}
-#[derive(Debug)]
+super::create_solver!(
+    PART_1,
+    number_of_ways,
+    "Advent of Code 2023, Day 6, Part 1. Wait For It."
+);
+
+super::create_solver!(
+    PART_2,
+    single_race,
+    "Advent of Code 2023, Day 6, Part 2. Wait For It."
+);
+
 struct Competition {
     races: [Race; 4],
 }
 
-#[derive(Debug)]
 struct Race {
     time: u64,
     distance: u64,
@@ -81,7 +88,7 @@ impl FromStr for Competition {
     }
 }
 
-pub fn solve_part_1() -> Solution {
+pub fn number_of_ways() -> u64 {
     let input = get_input();
 
     let competition = input
@@ -93,14 +100,15 @@ pub fn solve_part_1() -> Solution {
         .iter()
         .map(Race::number_of_records)
         .product::<u64>()
-        .into()
 }
 
-pub fn solve_part_2() -> Solution {
+pub fn single_race() -> u64 {
     let input = get_input();
 
-    let (times, distances) = input.split_once('\n').unwrap_or_else(|| panic!("Failed to parse input"));
-    
+    let (times, distances) = input
+        .split_once('\n')
+        .unwrap_or_else(|| panic!("Failed to parse input"));
+
     let time = times
         .split_once(':')
         .unwrap_or_else(|| panic!("Failed to parse input"))
@@ -121,7 +129,5 @@ pub fn solve_part_2() -> Solution {
 
     let race = Race { time, distance };
 
-    println!("{:?}", race);
-
-    race.number_of_records().into()
+    race.number_of_records()
 }

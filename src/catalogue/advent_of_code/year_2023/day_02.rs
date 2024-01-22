@@ -1,6 +1,17 @@
-use std::{fs, str::FromStr};
+use std::str::FromStr;
 
-use crate::solution::Solution;
+super::get_input!(2023, 2);
+
+super::create_solver!(
+    PART_1,
+    sum_of_ids,
+    "Advent of Code 2023, Day 1, Part 1. Cube Conundrum."
+);
+super::create_solver!(
+    PART_2,
+    sum_power_sets,
+    "Advent of Code 2023, Day 1, Part 2. Cube Conundrum."
+);
 
 struct ParseError;
 
@@ -84,11 +95,7 @@ impl Game {
     }
 }
 
-fn get_input() -> String {
-    fs::read_to_string("src/catalogue/advent_of_code/year_2023/inputs/day_02.in").unwrap()
-}
-
-pub fn solve_part_1() -> Solution {
+pub fn sum_of_ids() -> u32 {
     let input = get_input();
 
     input
@@ -103,10 +110,9 @@ pub fn solve_part_1() -> Solution {
         })
         .map(|game| game.id)
         .sum::<u32>()
-        .into()
 }
 
-pub fn solve_part_2() -> Solution {
+pub fn sum_power_sets() -> u32 {
     let input = get_input();
 
     input
@@ -120,5 +126,4 @@ pub fn solve_part_2() -> Solution {
         })
         .map(|color| color.pow())
         .sum::<u32>()
-        .into()
 }

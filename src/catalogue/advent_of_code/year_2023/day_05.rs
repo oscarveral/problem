@@ -1,6 +1,18 @@
-use std::{fs, ops::Range, str::FromStr};
+use std::{ops::Range, str::FromStr};
 
-use crate::solution::Solution;
+super::get_input!(2023, 5);
+
+super::create_solver!(
+    PART_1,
+    lowest_location,
+    "Advent of Code 2023, Day 5, Part 1. If You Give A Seed A Fertilizer."
+);
+
+super::create_solver!(
+    PART_2,
+    lowest_location_ranged,
+    "Advent of Code 2023, Day 5, Part 2. If You Give A Seed A Fertilizer."
+);
 
 struct Mapper {
     pub range_orgin: Range<u64>,
@@ -153,18 +165,14 @@ impl Almanac {
     }
 }
 
-fn get_input() -> String {
-    fs::read_to_string("src/catalogue/advent_of_code/year_2023/inputs/day_05.in").unwrap()
-}
-
-pub fn solve_part_1() -> Solution {
+pub fn lowest_location() -> u64 {
     let input = get_input();
 
     let almanac = Almanac::from_str(&input).unwrap_or_else(|_e| {
         panic!("Error parsing input.");
     });
 
-    almanac.find_min_position().into()
+    almanac.find_min_position()
 }
 
 struct MapperCollectionRangeIterator<'a> {
@@ -221,7 +229,7 @@ impl<'a> Iterator for MapperCollectionRangeIterator<'a> {
     }
 }
 
-pub fn solve_part_2() -> Solution {
+pub fn lowest_location_ranged() -> u32 {
     let input = get_input();
 
     let almanac = Almanac::from_str(&input).unwrap_or_else(|_e| {
@@ -236,5 +244,4 @@ pub fn solve_part_2() -> Solution {
         .map(|num| num as u32)
         .min()
         .unwrap()
-        .into()
 }

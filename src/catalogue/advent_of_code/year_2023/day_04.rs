@@ -1,10 +1,16 @@
-use std::fs;
+super::get_input!(2023, 4);
 
-use crate::solution::Solution;
+super::create_solver!(
+    PART_1,
+    total_points,
+    "Advent of Code 2023, Day 4, Part 1. Scratchcards."
+);
 
-fn get_input() -> String {
-    fs::read_to_string("src/catalogue/advent_of_code/year_2023/inputs/day_04.in").unwrap()
-}
+super::create_solver!(
+    PART_2,
+    total_scratchcards,
+    "Advent of Code 2023, Day 4, Part 2. Scratchcards."
+);
 
 fn winning_num_count(card: &str) -> Option<u32> {
     let (_, numbers) = card.split_once(':')?;
@@ -22,7 +28,7 @@ fn winning_num_count(card: &str) -> Option<u32> {
     )
 }
 
-pub fn solve_part_1() -> Solution {
+pub fn total_points() -> u32 {
     let input = get_input();
 
     input
@@ -31,10 +37,9 @@ pub fn solve_part_1() -> Solution {
         .filter(|&count| count > 0)
         .map(|c| 1 << (c - 1))
         .sum::<u32>()
-        .into()
 }
 
-pub fn solve_part_2() -> Solution {
+pub fn total_scratchcards() -> i32 {
     let input = get_input();
 
     let lines = input.lines().collect::<Vec<_>>();
@@ -50,5 +55,5 @@ pub fn solve_part_2() -> Solution {
             }
         }
     }
-    total.into()
+    total
 }

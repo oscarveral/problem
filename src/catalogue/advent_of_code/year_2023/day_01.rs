@@ -1,12 +1,17 @@
-use std::fs;
+super::get_input!(2023, 1);
 
-use crate::solution::Solution;
+super::create_solver!(
+    PART_1,
+    sum_of_all,
+    "Advent of Code 2023, Day 1, Part 1. Trebuchet?!"
+);
+super::create_solver!(
+    PART_2,
+    sum_of_all_exhaustive,
+    "Advent of Code 2023, Day 1, Part 2. Trebuchet?!"
+);
 
-fn get_input() -> String {
-    fs::read_to_string("src/catalogue/advent_of_code/year_2023/inputs/day_01.in").unwrap()
-}
-
-pub fn solve_part_1() -> Solution {
+fn sum_of_all() -> u32 {
     let input = get_input();
 
     input
@@ -18,10 +23,9 @@ pub fn solve_part_1() -> Solution {
             first.zip(last).map(|(first, last)| first * 10 + last)
         })
         .sum::<u32>()
-        .into()
 }
 
-pub fn solve_part_2() -> Solution {
+fn sum_of_all_exhaustive() -> u32 {
     let input = get_input();
 
     let digit_strs = [
@@ -69,5 +73,4 @@ pub fn solve_part_2() -> Solution {
             first.zip(last).map(|(a, b)| a * 10 + b)
         })
         .sum::<u32>()
-        .into()
 }

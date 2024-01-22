@@ -1,12 +1,20 @@
 use std::{char, collections::HashMap, fs};
 
-use crate::solution::Solution;
+super::get_input!(2023, 3);
 
-fn get_input() -> String {
-    fs::read_to_string("src/catalogue/advent_of_code/year_2023/inputs/day_03.in").unwrap()
-}
+super::create_solver!(
+    PART_1,
+    sum_part_numbers,
+    "Advent of Code 2023, Day 3, Part 1. Gear Ratios."
+);
 
-pub fn solve_part_1() -> Solution {
+super::create_solver!(
+    PART_2,
+    sum_gear_ratios,
+    "Advent of Code 2023, Day 3, Part 2. Gear Ratios."
+);
+
+pub fn sum_part_numbers() -> u32 {
     let input = get_input();
     let mut part_sum = 0;
     let mut cur_num: Option<u32> = None;
@@ -47,10 +55,10 @@ pub fn solve_part_1() -> Solution {
             }
         }
     }
-    part_sum.into()
+    part_sum
 }
 
-pub fn solve_part_2() -> Solution {
+pub fn sum_gear_ratios() -> u32 {
     let input = get_input();
     let mut gears: HashMap<(usize, usize), Gear> = HashMap::new();
     let mut cur_num: Option<u32> = None;
@@ -100,7 +108,6 @@ pub fn solve_part_2() -> Solution {
         .into_values()
         .filter_map(|gear| (gear.adjacent_parts == 2).then_some(gear.ratio))
         .sum::<u32>()
-        .into()
 }
 
 struct Gear {
