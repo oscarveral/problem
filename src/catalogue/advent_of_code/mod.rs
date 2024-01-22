@@ -21,9 +21,8 @@ impl Problem for AdventOfCodeProblem {
     fn get_solver(&self) -> Vec<AdventOfCodeSolver> {
         self.year
             .clone()
-            .into_iter()
             .filter_map(|year| match year {
-                2023 => Some(year_2023::get_solver(&self)),
+                2023 => Some(year_2023::get_solver(self)),
                 _ => {
                     eprintln!("Advent of Code: Can't find year {}.", year);
                     None
@@ -138,9 +137,20 @@ macro_rules! get_input {
     };
 }
 
-macro_rules! get_solver {
+macro_rules! create_year {
     () => {
-        use crate::catalogue::advent_of_code::{AdventOfCodeProblem, AdventOfCodeSolver};
+        pub(crate) use super::create_solver;
+        pub(crate) use super::get_input;
+
+        use super::{AdventOfCodeProblem, AdventOfCodeSolver};
+
+        mod day_01;
+        mod day_02;
+        mod day_03;
+        mod day_04;
+        mod day_05;
+        mod day_06;
+        mod day_07;
 
         pub fn get_solver(problem: &AdventOfCodeProblem) -> Vec<AdventOfCodeSolver> {
             let problems = problem
@@ -194,5 +204,5 @@ macro_rules! get_solver {
 }
 
 pub(crate) use create_solver;
+pub(crate) use create_year;
 pub(crate) use get_input;
-pub(crate) use get_solver;
