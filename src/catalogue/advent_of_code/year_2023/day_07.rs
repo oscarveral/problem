@@ -224,7 +224,7 @@ impl Hand {
 			cards[i] = card;
 			hand.cards[i] = match (joker, cards[i]) {
 				(Some(j), c) if c == j => 0,
-				(Some(j), _) => cards[i].value() + 1,
+				(Some(_), _) => cards[i].value() + 1,
 				(None, _) => cards[i].value(),
 			}
 		}
