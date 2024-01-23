@@ -85,17 +85,17 @@ impl Problem for AdventOfCodeProblem {
             }
         };
 
-        if years[0] > years[1] {
+        if years.len() > 1 && years[0] > years[1] {
             eprintln!("Advent of Code: The start year is greater than the end year.");
             return None;
         }
 
-        if days[0] > days[1] {
+        if days.len() > 1 && days[0] > days[1] {
             eprintln!("Advent of Code: The start day is greater than the end day.");
             return None;
         }
 
-        if parts[0] > parts[1] {
+        if parts.len() > 1 && parts[0] > parts[1] {
             eprintln!("Advent of Code: The start part is greater than the end part.");
             return None;
         }
@@ -182,6 +182,8 @@ macro_rules! create_year {
                     (5, 2) => Some(day_05::PART_2),
                     (6, 1) => Some(day_06::PART_1),
                     (6, 2) => Some(day_06::PART_2),
+                    (7, 1) => Some(day_07::PART_1),
+                    (7, 2) => Some(day_07::PART_2),
                     (_, 1..=2) => {
                         eprintln!("Advent of Code: Can't find day {}.", day);
                         None
