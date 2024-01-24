@@ -151,6 +151,7 @@ macro_rules! create_year {
         mod day_05;
         mod day_06;
         mod day_07;
+        mod day_08;
 
         pub fn get_solver(problem: &AdventOfCodeProblem) -> Vec<AdventOfCodeSolver> {
             let problems = problem
@@ -184,6 +185,8 @@ macro_rules! create_year {
                     (6, 2) => Some(day_06::PART_2),
                     (7, 1) => Some(day_07::PART_1),
                     (7, 2) => Some(day_07::PART_2),
+                    (8, 1) => Some(day_08::PART_1),
+                    (8, 2) => Some(day_08::PART_2),
                     (_, 1..=2) => {
                         eprintln!("Advent of Code: Can't find day {}.", day);
                         None
