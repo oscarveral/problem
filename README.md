@@ -17,6 +17,16 @@ single identifier.
 
 * Advent of Code. advent_of_code:yyyy(-yyyy)/dd(-dd)/pp(-pp)
 
+## Inputs.
+
+Many problems sources can require inputs. As they will not be stored on the 
+repository, you should provide your own on the "data" directory based on the 
+following instructions per problem source.
+
+* Advent of Code. Place on /data/advent_of_code/year_{$year}/day_{$day}.in with
+	$year being the year of the input's problem and $day being the input's 
+	problem day formatted to have exactly 2 digits (i.e. 01, 04, 11...).
+
 # Example of use.
 
 * Advent of Code. Year 2021, day 2, part 1: advent_of_code:2021/02/01.
