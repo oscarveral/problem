@@ -19,7 +19,7 @@ single identifier.
 
 ## Inputs.
 
-Many problems sources can require inputs. As they will not be stored on the 
+Many problems sources require inputs. As they will not be stored on the 
 repository, you should provide your own on the "data" directory based on the 
 following instructions per problem source.
 
