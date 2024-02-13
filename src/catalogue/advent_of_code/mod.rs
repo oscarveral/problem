@@ -129,7 +129,7 @@ macro_rules! get_input {
         use std::fs::read_to_string;
         pub fn get_input() -> String {
             let file = format!(
-                "src/catalogue/advent_of_code/year_{}/inputs/day_{:02}.in",
+                "data/advent_of_code/year_{}/day_{:02}.in",
                 $year, $day
             );
             read_to_string(file).expect("Advent of Code: Can't find input file.")
